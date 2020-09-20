@@ -159,7 +159,9 @@ function start_wireguard_service() {
 	# Check if WireGuard is running
 	systemctl is-active --quiet "wg-quick@${NIC_WG}"
 	WG_IS_RUNNING=$?
-	if [[ ${WG_IS_RUNNING} -ne 0 ]]; then
+	if [[ ${WG_IS_RUNNING} -eq 0 ]]; then
+		wg show ${NIC_WG}
+	else
 		echo -e "\nWireGuard service is not running!"
 		echo "Please run \"sudo systemctl status wg-quick@${NIC_WG}\" for more information."
 		echo "If you get something like \"Cannot find device ${NIC_WG}\", please reboot the machine!"
@@ -212,7 +214,6 @@ function main() {
 	ask_for_custom_server_params
 	create_config_file
 	start_wireguard_service
-	wg show ${NIC_WG}
 	store_wireguard_params
 
 	echo "WireGuard is setup successfully."
