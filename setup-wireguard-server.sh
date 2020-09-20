@@ -54,7 +54,7 @@ function get_os_name() {
 # Reference: https://www.wireguard.com/install/#ubuntu-module-tools
 function install_packages_on_ubuntu() {
 	apt update
-	apt install -y wireguard iptables
+	apt install -y wireguard
 }
 
 # Reference: https://www.wireguard.com/install/#debian-module-tools
@@ -81,6 +81,19 @@ function install_packages_on_centos() {
 # Reference: https://www.wireguard.com/install/#arch-module-tools
 function install_packages_on_arch() {
 	pacman -S --noconfirm wireguard-tools iptables
+}
+
+function open_wireguard_port_in_ufw() {
+	ufw allow OpenSSH
+	ufw allow ${PORT}/udp
+	
+	ufw status | grep -qw active
+	UFW_IS_ACTIVE=$?
+	if [[ ${UFW_IS_ACTIVE} -eq 0 ]]; then
+		ufw reload
+	else
+		ufw enable
+	fi
 }
 
 function enable_ip_forwarding() {
@@ -137,7 +150,6 @@ PostDown = firewall-cmd --remove-port ${PORT}/udp && firewall-cmd --remove-rich-
 PostDown = iptables -D FORWARD -i ${NIC_WG} -j ACCEPT; iptables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE; ip6tables -D FORWARD -i ${NIC_WG} -j ACCEPT; ip6tables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE" >>"/etc/wireguard/${NIC_WG}.conf"
 
 	fi
-
 }
 
 function start_wireguard_service() {
@@ -153,7 +165,6 @@ function start_wireguard_service() {
 		echo "If you get something like \"Cannot find device ${NIC_WG}\", please reboot the machine!"
 		exit 1
 	fi
-
 }
 
 function store_wireguard_params() {
@@ -182,6 +193,7 @@ function main() {
 	get_os_name
 	if [[ ${OS} == 'ubuntu' ]]; then
 		install_packages_on_ubuntu
+		open_wireguard_port_in_ufw
 	elif [[ ${OS} == 'debian' ]]; then
 		install_packages_on_debian
 	elif [[ ${OS} == 'fedora' ]]; then
