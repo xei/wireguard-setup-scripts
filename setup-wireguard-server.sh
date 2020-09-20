@@ -66,10 +66,6 @@ function install_packages_on_debian() {
 # Reference: https://www.wireguard.com/install/#fedora-tools
 function install_packages_on_fedora() {
 	dnf install -y wireguard-tools iptables
-
-	# Make sure the directory exists
-	mkdir /etc/wireguard >/dev/null 2>&1
-	chmod 600 -R /etc/wireguard/
 }
 
 # Reference: https://www.wireguard.com/install/#centos-8-module-plus-module-kmod-module-dkms-tools
@@ -200,6 +196,10 @@ function main() {
 		install_packages_on_debian
 	elif [[ ${OS} == 'fedora' ]]; then
 		install_packages_on_fedora
+
+		# Make sure the directory exists
+        	mkdir /etc/wireguard >/dev/null 2>&1
+        	chmod 600 -R /etc/wireguard/
 	elif [[ ${OS} == 'centos' ]]; then
 		install_packages_on_centos
 	elif [[ ${OS} == 'arch' ]]; then
