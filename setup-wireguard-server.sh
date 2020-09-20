@@ -168,7 +168,7 @@ function start_wireguard_service() {
 }
 
 function store_wireguard_params() {
-	PUBLIC_IPV4==$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
+	PUBLIC_IPV4=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
 	PUBLIC_IPV6=$(ip -6 addr | sed -ne 's|^.* inet6 \([^/]*\)/.* scope global.*$|\1|p' | head -1)
 
 	echo "NIC_WG=${NIC_WG}
