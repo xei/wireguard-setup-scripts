@@ -54,29 +54,29 @@ function get_os_name() {
 # Reference: https://www.wireguard.com/install/#ubuntu-module-tools
 function install_packages_on_ubuntu() {
 	apt update
-	apt install -y wireguard
+	apt install -y wireguard qrencode
 }
 
 # Reference: https://www.wireguard.com/install/#debian-module-tools
 function install_packages_on_debian() {
 	apt update
-	apt install -y wireguard iptables
+	apt install -y wireguard iptables qrencode
 }
 
 # Reference: https://www.wireguard.com/install/#fedora-tools
 function install_packages_on_fedora() {
-	dnf install -y wireguard-tools iptables
+	dnf install -y wireguard-tools iptables qrencode
 }
 
 # Reference: https://www.wireguard.com/install/#centos-8-module-plus-module-kmod-module-dkms-tools
 function install_packages_on_centos() {
 	sudo yum -y install elrepo-release epel-release
-        sudo yum -y install kmod-wireguard wireguard-tools iptables
+        sudo yum -y install kmod-wireguard wireguard-tools iptables qrencode
 }
 
 # Reference: https://www.wireguard.com/install/#arch-module-tools
 function install_packages_on_arch() {
-	pacman -S --noconfirm wireguard-tools iptables
+	pacman -S --noconfirm wireguard-tools iptables qrencode
 }
 
 function open_wireguard_port_in_ufw() {
