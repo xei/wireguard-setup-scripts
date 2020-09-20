@@ -56,6 +56,8 @@ function ask_for_custom_server_params() {
         until [[ ${NIC_WG} =~ ^[a-zA-Z0-9_]+$ ]]; do
                 read -rp "Enter a name for WireGuard network interface: " -e -i wg0 NIC_WG
         done
+	
+	echo ""
 }
 
 function get_os_name() {
