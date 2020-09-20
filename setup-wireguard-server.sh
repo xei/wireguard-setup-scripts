@@ -36,6 +36,28 @@ function check_if_wireguard_is_already_setup() {
         fi
 }
 
+function ask_for_custom_server_params() {
+        echo "Some custom parameters are needed to setup WireGuard VPN server."
+        echo "You can leave the default options and just press Enter key."
+        echo ""
+
+        until [[ ${IPV4} =~ ^([0-9]{1,3}\.){3} ]]; do
+                read -rp "Enter a private IPv4 for WireGuard server: " -e -i 10.0.0.1 IPV4
+        done
+
+        until [[ ${IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
+                read -rp "Enter a private IPv6 for WireGuard server: " -e -i fd42:42:42::1 IPV6
+        done
+
+        until [[ ${PORT} =~ ^[0-9]+$ ]] && [ "${PORT}" -ge 1 ] && [ "${PORT}" -le 65535 ]; do
+                read -rp "Enter a port [1-65535] for WireGuard to listen: " -e -i 51820 PORT
+        done
+
+        until [[ ${NIC_WG} =~ ^[a-zA-Z0-9_]+$ ]]; do
+                read -rp "Enter a name for WireGuard network interface: " -e -i wg0 NIC_WG
+        done
+}
+
 function get_os_name() {
 	if [[ -e /etc/debian_version ]]; then
 		source /etc/os-release
@@ -88,7 +110,7 @@ function open_wireguard_port_in_ufw() {
 	if [[ ${UFW_IS_ACTIVE} -eq 0 ]]; then
 		ufw reload
 	else
-		ufw enable
+		ufw --force enable
 	fi
 }
 
@@ -102,28 +124,6 @@ net.ipv6.conf.all.forwarding = 1" >/etc/sysctl.d/wg.conf
 function generate_keys() {
         PRIVATE_KEY=$(wg genkey)
         PUBLIC_KEY=$(echo "${PRIVATE_KEY}" | wg pubkey)
-}
-
-function ask_for_custom_server_params() {
-	echo "Some custom parameters are needed to setup WireGuard VPN server."
-	echo "You can leave the default options and just press Enter key."
-	echo ""
-
-	until [[ ${IPV4} =~ ^([0-9]{1,3}\.){3} ]]; do
-		read -rp "Enter a private IPv4 for WireGuard server: " -e -i 10.0.0.1 IPV4
-	done
-
-	until [[ ${IPV6} =~ ^([a-f0-9]{1,4}:){3,4}: ]]; do
-		read -rp "Enter a private IPv6 for WireGuard server: " -e -i fd42:42:42::1 IPV6
-	done
-
-	until [[ ${PORT} =~ ^[0-9]+$ ]] && [ "${PORT}" -ge 1 ] && [ "${PORT}" -le 65535 ]; do
-		read -rp "Enter a port [1-65535] for WireGuard to listen: " -e -i 51820 PORT
-	done
-
-	until [[ ${NIC_WG} =~ ^[a-zA-Z0-9_]+$ ]]; do
-		read -rp "Enter a name for WireGuard network interface: " -e -i wg0 NIC_WG
-	done
 }
 
 function create_config_file() {
@@ -188,6 +188,7 @@ function main() {
 	check_root_priviledge
 	check_if_virtualization_is_supported
 	check_if_wireguard_is_already_setup
+	ask_for_custom_server_params
 	get_os_name
 	if [[ ${OS} == 'ubuntu' ]]; then
 		install_packages_on_ubuntu
@@ -211,7 +212,6 @@ function main() {
 	fi
 	enable_ip_forwarding
 	generate_keys
-	ask_for_custom_server_params
 	create_config_file
 	start_wireguard_service
 	store_wireguard_params
