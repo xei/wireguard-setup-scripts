@@ -217,7 +217,7 @@ function main() {
 	store_wireguard_params
 
 	echo "WireGuard is setup successfully."
-	echo "You can also setup Pi-hole ad blocker in your network by running \"sudo ./setup-pi-hole.sh\"."
+	echo "You can also setup Pi-hole ad blocker in your network by running \"sudo ./setup-pihole.sh\"."
 	echo "Run \"sudo ./create-new-peer.sh\" to create and bind a new client."
 }
 
