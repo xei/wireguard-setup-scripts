@@ -1,6 +1,3 @@
-#!bin/bash
-
-
 # Setup Pi-hole DNS sinkhole (Network-wide ad blocker) on a Linux server.
 
 # Copyright (c) 2020 Hamidreza Hosseinkhani (xei) under the terms of the MIT license.
