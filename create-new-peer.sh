@@ -8,6 +8,18 @@
 # Some parts of this script are inspired from https://github.com/angristan/wireguard-install
 
 
+function set_peer_name() {
+	if [ $# -eq 0 ]
+	then
+		echo "Please pass a name for new peer as an argument."
+		echo "For example:"
+		echo "sudo ./create-new-peer.sh client2"
+		exit 1
+	else
+		PEER_NAME=$1
+	fi
+}
+
 function check_root_priviledge() {
 	if [ "${EUID}" -ne 0  ]; then
 		echo "Permission denied: Please run the script as root!"
@@ -50,12 +62,6 @@ function generate_keys() {
         PRESHARED_KEY=$(wg genpsk)
 }
 
-function ask_for_peer_name() {
-	until [[ ${PEER_NAME} =~ ^[a-zA-Z0-9_]+$ ]]; do
-		read -rp "Enter a name for WireGuard peer (client): " -e -i peer${PEER_ID} PEER_NAME
-	done
-}
-
 function create_config_file() {
 	mkdir -p /etc/wireguard/peers/${PEER_ID}-${PEER_NAME}
 
@@ -96,12 +102,12 @@ function print_config_as_qr_code() {
 
 
 function main() {
+	set_peer_name $1
 	check_root_priviledge
 	check_if_wireguard_is_setup
 	retrieve_peer_id
 	retrieve_wireguard_params
 	generate_keys
-	ask_for_peer_name
 	create_config_file
 	bind_peer_to_server
 	update_last_peer_id_file
@@ -114,4 +120,4 @@ function main() {
 }
 
 
-main
+main $1
