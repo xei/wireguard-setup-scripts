@@ -75,8 +75,9 @@ AllowedIPs = 0.0.0.0/0" > "/etc/wireguard/peers/${PEER_ID}-${PEER_NAME}/${PEER_N
 
 function bind_peer_to_server() {
 	echo "
+### Peer Name: ${PEER_NAME}
+### Peer ID: ${PEER_ID}
 [Peer]
-# ${PEER_ID}-${PEER_NAME}
 PublicKey = ${PUBLIC_KEY}
 PresharedKey = ${PRESHARED_KEY}
 AllowedIPs = ${IPV4}/24, ${IPV6}/64" >> "/etc/wireguard/${NIC_WG}.conf"
