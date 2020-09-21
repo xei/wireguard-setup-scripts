@@ -94,8 +94,8 @@ function install_packages_on_fedora() {
 
 # Reference: https://www.wireguard.com/install/#centos-8-module-plus-module-kmod-module-dkms-tools
 function install_packages_on_centos() {
-	sudo yum -y install elrepo-release epel-release
-        sudo yum -y install kmod-wireguard wireguard-tools iptables qrencode
+	yum -y install elrepo-release epel-release
+        yum -y install kmod-wireguard wireguard-tools iptables qrencode
 }
 
 # Reference: https://www.wireguard.com/install/#arch-module-tools
