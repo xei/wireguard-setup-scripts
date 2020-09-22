@@ -107,6 +107,7 @@ You can remove the WireGuard server completely by running the following command:
 ```
 sudo ./remove-wireguard-server.sh
 ```
+Note that the above script will remove the directory `/etc/wireguard` and its contents including all peers' config files. Backup the direcory if it is necessary.
 Note that the above script will not remove Pi-hole. In order to remove Pi-hole visit its [official documentation](https://docs.pi-hole.net).
 
 ### WireGuard client applications
