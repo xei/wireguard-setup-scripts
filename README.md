@@ -87,16 +87,20 @@ For more information about installer wizard vistit the [official documentation](
 ### Create a new peer (client)
 Run the following command to create a new client (here named `xei-pc`):
 ```
-sudo ./create-new-peer.sh xei-pc
+sudo ./create-new-peer.sh xei-mobile
 ```
+This command will generate a QR code that can be scanned by Wireguard client mobile application. It also generate a config file in `/etc/wireguard/peers/xei-mobile/` directory that can be used instead of the QR code.
+
 Note that you can not connect to the VPN as one client with more than one devices at the same time. You have to create different clients for different devices. for example `xei-pc` and `xei-mobile`.
+
+> You have to modify the client's config file and change `DNS` section to something like `1.1.1.1` or `8.8.8.8` if you are not going to setup `Pi-hole` or other DNS servers.
 
 ### Revoke a peer (client)
 You can remove a client by running the following command:
 ```
-sudo ./revoke-peer.sh xei-pc
+sudo ./revoke-peer.sh xei-mobile
 ```
-`xei-pc` is the name of the client you want to remove.
+`xei-mobile` is the name of the client you want to remove.
 
 ### Remove WireGuard server
 You can remove the WireGuard server completely by running the following command:
@@ -104,6 +108,21 @@ You can remove the WireGuard server completely by running the following command:
 sudo ./remove-wireguard-server.sh
 ```
 Note that the above script will not remove Pi-hole. In order to remove Pi-hole visit its [official documentation](https://docs.pi-hole.net).
+
+### WireGuard client applications
+When you create a new peer (client) with the above command, a config file will be generated in `/etc/wireguard/peers/client-name/` directory that should be imported to WireGuard client application.
+
+WireGuard client application is available in almost all platforms:
+
+[Download WireGuard client application for Windows](https://download.wireguard.com/windows-client/wireguard-amd64-0.1.1.msi)
+
+[Download WireGuard client application for macOS](https://itunes.apple.com/us/app/wireguard/id1451685025?ls=1&mt=12)
+
+[Download WireGuard client application for Linux](https://www.wireguard.com/install)
+
+[Download WireGuard client application for Android](https://play.google.com/store/apps/details?id=com.wireguard.android)
+
+[Download WireGuard client application for iOS](https://itunes.apple.com/us/app/wireguard/id1441195209?ls=1&mt=8)
 
 <p>&nbsp;</p>
 
