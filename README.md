@@ -17,7 +17,7 @@ The major applications of VPNs are:
 5. Get around Internet censorship, [geo-blocking](https://en.wikipedia.org/wiki/Geo-blocking) and sanctions in some countries.
 
 ## WireGuard
-There are a bunch of tunneling protocols in order to make a VPN. For example [PPTP](https://www.bgocloud.com/knowledgebase/32/mikrotik-chr-how-to-setup-pptp-vpn-server.html), [L2TP](https://blog.johannfenech.com/mikrotik-l2tp-ipsec-vpn-server/), [IKEv2/IPSec](https://nordvpn.com/blog/ikev2ipsec/), [OpenVPN](https://github.com/angristan/openvpn-install) and of course [WireGuard](https://www.wireguard.com/).
+There are a bunch of tunneling protocols in order to make a VPN. For example ~~[PPTP](https://www.bgocloud.com/knowledgebase/32/mikrotik-chr-how-to-setup-pptp-vpn-server.html)~~, ~~[L2TP](https://blog.johannfenech.com/mikrotik-l2tp-ipsec-vpn-server/)~~, [IKEv2/IPSec](https://github.com/jawj/IKEv2-setup), [OpenVPN](https://github.com/angristan/openvpn-install) and of course [WireGuard](https://www.wireguard.com/).
 
 Among these all, WireGuard seems to be the most interesting. It is lite (about 4,000 lines of code), fast and secure. So in 2020, WireGuard was officially added to the Linux kernel 5.6 release (so also Android kernels) by Linus Torvalds.
 
