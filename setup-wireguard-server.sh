@@ -144,9 +144,8 @@ PrivateKey = ${PRIVATE_KEY}" >"/etc/wireguard/${NIC_WG}.conf"
 PostDown = firewall-cmd --remove-port ${PORT}/udp && firewall-cmd --remove-rich-rule='rule family=ipv4 source address=${FIREWALLD_IPV4}/24 masquerade' && firewall-cmd --remove-rich-rule='rule family=ipv6 source address=${FIREWALLD_IPV6}/24 masquerade'" >>"/etc/wireguard/${NIC_WG}.conf"
 
 	else
-		echo "PostUp = iptables -A FORWARD -i ${NIC_WG} -j ACCEPT; iptables -t nat -A POSTROUTING -o ${NIC_PUB} -j MASQUERADE; ip6tables -A FORWARD -i ${NIC_WG} -j ACCEPT; ip6tables -t nat -A POSTROUTING -o ${NIC_PUB} -j MASQUERADE
-PostDown = iptables -D FORWARD -i ${NIC_WG} -j ACCEPT; iptables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE; ip6tables -D FORWARD -i ${NIC_WG} -j ACCEPT; ip6tables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE" >>"/etc/wireguard/${NIC_WG}.conf"
-
+		echo "PostUp = iptables -A FORWARD -i ${NIC_PUB} -o ${NIC_WG} -j ACCEPT; iptables -A FORWARD -i ${NIC_WG} -j ACCEPT; iptables -t nat -A POSTROUTING -o ${NIC_PUB} -j MASQUERADE; ip6tables -A FORWARD -i ${NIC_WG} -j ACCEPT; ip6tables -t nat -A POSTROUTING -o ${NIC_PUB} -j MASQUERADE
+PostDown = iptables -D FORWARD -i ${NIC_PUB} -o ${NIC_WG} -j ACCEPT; iptables -D FORWARD -i ${NIC_WG} -j ACCEPT; iptables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE; ip6tables -D FORWARD -i ${NIC_WG} -j ACCEPT; ip6tables -t nat -D POSTROUTING -o ${NIC_PUB} -j MASQUERADE" >>"/etc/wireguard/${NIC_WG}.conf"
 	fi
 }
 
